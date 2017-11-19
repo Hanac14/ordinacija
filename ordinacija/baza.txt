@@ -1,0 +1,58 @@
+create table stomatolog(
+    stomatologid integer auto_increment,
+    ime varchar(100),
+    prezime varchar(100),
+    korisnickoime varchar(100),
+    korisnickasifra varchar(100),
+    primary key (stomatologid)
+    );
+    
+    insert into stomatolog (ime, prezime, korisnickoime, korisnickasifra) values ('admin','', 'admin', 'admin');
+    
+    create table grad(
+    gradid integer auto_increment,
+    naziv varchar(100),
+    ptt varchar(100),
+    primary key (gradid));
+    
+    create table usluga(
+        uslugaid integer auto_increment,
+        naziv varchar(100),
+        cena real,
+        primary key (uslugaid)
+        );
+
+create table pacijent(
+    
+    pacijentid integer auto_increment,
+    jmbg varchar(100),
+    ime varchar(100),
+    prezime varchar(100),
+    datumrodjenja datetime,
+    brojtelefona varchar(100),
+    adresa varchar(100),
+    gradid integer,
+    mail varchar(100),
+    primary key (pacijentid),
+    foreign key (gradid) references grad(gradid)
+    );
+
+create table intervencija (
+    intervencijaid integer auto_increment,
+    opis varchar(100),
+    cena double,
+    pacijentid integer,
+    stomatologid integer,
+    primary key (intervencijaid),
+    foreign key (pacijentid) references pacijent(pacijentid) on update cascade on delete cascade,
+    foreign key (stomatologid) references stomatolog(stomatologid) on update cascade on delete cascade
+    );
+	
+	create table stavkaintervencije(
+	intervencijaid integer,
+	rednibrojstavke integer,
+	uslugaid integer,
+	primary key (intervencijaid, rednibrojstavke),
+	foreign key (intervencijaid) references intervencija (intervencijaid) on update cascade on delete cascade,
+	foreign key (uslugaid) references usluga(uslugaid)
+	);
